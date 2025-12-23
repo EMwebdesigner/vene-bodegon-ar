@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { MapPin, Phone, Clock, ExternalLink, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 
+import sucursalMartinez from '@/assets/sucursal-martinez.jpg';
+import sucursalPalermo from '@/assets/sucursal-palermo.jpg';
+import sucursalBelgrano from '@/assets/sucursal-belgrano.jpg';
+import sucursalSanIsidro from '@/assets/sucursal-sanisidro.jpg';
+
 const locations = [
   {
     id: 1,
@@ -9,6 +14,7 @@ const locations = [
     phone: '+54 11 3600-3950',
     hours: 'Lun-Sáb: 9:00 - 20:00 | Dom: 10:00 - 14:00',
     mapUrl: 'https://maps.google.com/?q=Martinez,+Buenos+Aires,+Argentina',
+    image: sucursalMartinez,
   },
   {
     id: 2,
@@ -17,6 +23,7 @@ const locations = [
     phone: '+54 11 3600-3951',
     hours: 'Lun-Sáb: 9:00 - 21:00 | Dom: 10:00 - 15:00',
     mapUrl: 'https://maps.google.com/?q=Palermo,+Buenos+Aires,+Argentina',
+    image: sucursalPalermo,
   },
   {
     id: 3,
@@ -25,6 +32,7 @@ const locations = [
     phone: '+54 11 3600-3952',
     hours: 'Lun-Sáb: 9:00 - 20:00 | Dom: Cerrado',
     mapUrl: 'https://maps.google.com/?q=Belgrano,+Buenos+Aires,+Argentina',
+    image: sucursalBelgrano,
   },
   {
     id: 4,
@@ -33,6 +41,7 @@ const locations = [
     phone: '+54 11 3600-3953',
     hours: 'Lun-Vie: 10:00 - 19:00 | Sáb: 9:00 - 14:00',
     mapUrl: 'https://maps.google.com/?q=San+Isidro,+Buenos+Aires,+Argentina',
+    image: sucursalSanIsidro,
   },
 ];
 
@@ -110,40 +119,54 @@ const Locations = () => {
 
   const LocationCard = ({ location }: { location: typeof locations[0] }) => (
     <div className="flex-shrink-0 w-full md:w-[calc(33.333%-1rem)] px-2">
-      <div className="bg-white rounded-xl p-6 shadow-card hover:shadow-card-hover transition-all duration-300 h-full">
-        <h3 className="font-heading font-bold text-lg text-gray-dark mb-4">
-          {location.name}
-        </h3>
+      <div 
+        className="relative rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 h-full min-h-[380px] group"
+      >
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+          style={{ backgroundImage: `url(${location.image})` }}
+        />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30" />
+        
+        {/* Content */}
+        <div className="relative z-10 p-6 h-full flex flex-col justify-end text-white">
+          <h3 className="font-heading font-bold text-xl mb-4 drop-shadow-lg">
+            {location.name}
+          </h3>
 
-        <div className="space-y-3 mb-6">
-          <div className="flex items-start gap-3">
-            <MapPin size={18} className="text-blue-flag mt-0.5 flex-shrink-0" />
-            <p className="text-gray-medium text-sm">{location.address}</p>
+          <div className="space-y-3 mb-6">
+            <div className="flex items-start gap-3">
+              <MapPin size={18} className="text-yellow-primary mt-0.5 flex-shrink-0" />
+              <p className="text-white/90 text-sm drop-shadow-md">{location.address}</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <Phone size={18} className="text-yellow-primary flex-shrink-0" />
+              <a
+                href={`tel:${location.phone.replace(/\s/g, '')}`}
+                className="text-white/90 text-sm hover:text-yellow-primary transition-colors drop-shadow-md"
+              >
+                {location.phone}
+              </a>
+            </div>
+            <div className="flex items-start gap-3">
+              <Clock size={18} className="text-yellow-primary mt-0.5 flex-shrink-0" />
+              <p className="text-white/90 text-sm drop-shadow-md">{location.hours}</p>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Phone size={18} className="text-blue-flag flex-shrink-0" />
-            <a
-              href={`tel:${location.phone.replace(/\s/g, '')}`}
-              className="text-gray-medium text-sm hover:text-blue-flag transition-colors"
-            >
-              {location.phone}
-            </a>
-          </div>
-          <div className="flex items-start gap-3">
-            <Clock size={18} className="text-blue-flag mt-0.5 flex-shrink-0" />
-            <p className="text-gray-medium text-sm">{location.hours}</p>
-          </div>
+
+          <a
+            href={location.mapUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-yellow-primary text-black font-semibold text-sm py-3 px-4 rounded-lg w-full flex items-center justify-center gap-2 hover:bg-blue-flag hover:text-white transition-all duration-300"
+          >
+            Ver en Google Maps
+            <ExternalLink size={14} />
+          </a>
         </div>
-
-        <a
-          href={location.mapUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-secondary text-sm py-2 w-full flex items-center justify-center gap-2"
-        >
-          Ver en Google Maps
-          <ExternalLink size={14} />
-        </a>
       </div>
     </div>
   );
@@ -227,57 +250,68 @@ const Locations = () => {
           {locations.map((location, index) => (
             <div
               key={location.id}
-              className="fade-up bg-white rounded-xl shadow-card overflow-hidden"
+              className="fade-up rounded-xl shadow-card overflow-hidden"
               style={{ transitionDelay: `${0.1 * index}s` }}
             >
               <button
                 onClick={() => toggleAccordion(location.id)}
-                className="w-full px-6 py-4 flex items-center justify-between text-left"
+                className="w-full relative overflow-hidden"
                 aria-expanded={openAccordion === location.id}
               >
-                <h3 className="font-heading font-bold text-gray-dark">{location.name}</h3>
-                <ChevronDown
-                  size={20}
-                  className={`text-gray-medium transition-transform duration-300 ${
-                    openAccordion === location.id ? 'rotate-180' : ''
-                  }`}
+                {/* Background Image for Mobile */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${location.image})` }}
                 />
+                <div className="absolute inset-0 bg-black/50" />
+                
+                <div className="relative z-10 px-6 py-4 flex items-center justify-between text-left">
+                  <h3 className="font-heading font-bold text-white drop-shadow-lg">{location.name}</h3>
+                  <ChevronDown
+                    size={20}
+                    className={`text-yellow-primary transition-transform duration-300 ${
+                      openAccordion === location.id ? 'rotate-180' : ''
+                    }`}
+                  />
+                </div>
               </button>
 
               <div
-                className={`px-6 overflow-hidden transition-all duration-300 ${
-                  openAccordion === location.id ? 'max-h-64 pb-6' : 'max-h-0'
+                className={`bg-gray-dark overflow-hidden transition-all duration-300 ${
+                  openAccordion === location.id ? 'max-h-64' : 'max-h-0'
                 }`}
               >
-                <div className="space-y-3 mb-4">
-                  <div className="flex items-start gap-3">
-                    <MapPin size={18} className="text-blue-flag mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-medium text-sm">{location.address}</p>
+                <div className="px-6 py-4">
+                  <div className="space-y-3 mb-4">
+                    <div className="flex items-start gap-3">
+                      <MapPin size={18} className="text-yellow-primary mt-0.5 flex-shrink-0" />
+                      <p className="text-white/90 text-sm">{location.address}</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Phone size={18} className="text-yellow-primary flex-shrink-0" />
+                      <a
+                        href={`tel:${location.phone.replace(/\s/g, '')}`}
+                        className="text-white/90 text-sm hover:text-yellow-primary transition-colors"
+                      >
+                        {location.phone}
+                      </a>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Clock size={18} className="text-yellow-primary mt-0.5 flex-shrink-0" />
+                      <p className="text-white/90 text-sm">{location.hours}</p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <Phone size={18} className="text-blue-flag flex-shrink-0" />
-                    <a
-                      href={`tel:${location.phone.replace(/\s/g, '')}`}
-                      className="text-gray-medium text-sm hover:text-blue-flag transition-colors"
-                    >
-                      {location.phone}
-                    </a>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Clock size={18} className="text-blue-flag mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-medium text-sm">{location.hours}</p>
-                  </div>
-                </div>
 
-                <a
-                  href={location.mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-secondary text-sm py-2 w-full flex items-center justify-center gap-2"
-                >
-                  Ver en Google Maps
-                  <ExternalLink size={14} />
-                </a>
+                  <a
+                    href={location.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-yellow-primary text-black font-semibold text-sm py-2 w-full flex items-center justify-center gap-2 rounded-lg hover:bg-blue-flag hover:text-white transition-all duration-300"
+                  >
+                    Ver en Google Maps
+                    <ExternalLink size={14} />
+                  </a>
+                </div>
               </div>
             </div>
           ))}
