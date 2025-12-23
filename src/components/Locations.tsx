@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { MapPin, Phone, Clock, ExternalLink, ChevronDown } from 'lucide-react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { MapPin, Phone, Clock, ExternalLink, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const locations = [
   {
@@ -36,9 +36,16 @@ const locations = [
   },
 ];
 
+// Duplicate locations for infinite scroll effect
+const extendedLocations = [...locations, ...locations, ...locations];
+
 const Locations = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(locations.length);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,9 +65,88 @@ const Locations = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Auto-slide effect
+  useEffect(() => {
+    if (isPaused) return;
+    
+    const interval = setInterval(() => {
+      goToNext();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isPaused, currentIndex]);
+
+  // Handle infinite loop reset
+  useEffect(() => {
+    if (!isTransitioning) return;
+
+    const timeout = setTimeout(() => {
+      setIsTransitioning(false);
+      
+      // Reset to middle set without animation
+      if (currentIndex >= locations.length * 2) {
+        setCurrentIndex(locations.length);
+      } else if (currentIndex < locations.length) {
+        setCurrentIndex(locations.length + currentIndex);
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [currentIndex, isTransitioning]);
+
+  const goToNext = useCallback(() => {
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev + 1);
+  }, []);
+
+  const goToPrev = useCallback(() => {
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev - 1);
+  }, []);
+
   const toggleAccordion = (id: number) => {
     setOpenAccordion(openAccordion === id ? null : id);
   };
+
+  const LocationCard = ({ location }: { location: typeof locations[0] }) => (
+    <div className="flex-shrink-0 w-full md:w-[calc(33.333%-1rem)] px-2">
+      <div className="bg-white rounded-xl p-6 shadow-card hover:shadow-card-hover transition-all duration-300 h-full">
+        <h3 className="font-heading font-bold text-lg text-gray-dark mb-4">
+          {location.name}
+        </h3>
+
+        <div className="space-y-3 mb-6">
+          <div className="flex items-start gap-3">
+            <MapPin size={18} className="text-blue-flag mt-0.5 flex-shrink-0" />
+            <p className="text-gray-medium text-sm">{location.address}</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Phone size={18} className="text-blue-flag flex-shrink-0" />
+            <a
+              href={`tel:${location.phone.replace(/\s/g, '')}`}
+              className="text-gray-medium text-sm hover:text-blue-flag transition-colors"
+            >
+              {location.phone}
+            </a>
+          </div>
+          <div className="flex items-start gap-3">
+            <Clock size={18} className="text-blue-flag mt-0.5 flex-shrink-0" />
+            <p className="text-gray-medium text-sm">{location.hours}</p>
+          </div>
+        </div>
+
+        <a
+          href={location.mapUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-secondary text-sm py-2 w-full flex items-center justify-center gap-2"
+        >
+          Ver en Google Maps
+          <ExternalLink size={14} />
+        </a>
+      </div>
+    </div>
+  );
 
   return (
     <section id="localidades" ref={sectionRef} className="py-20 lg:py-28 bg-gray-50">
@@ -78,49 +164,62 @@ const Locations = () => {
           </p>
         </div>
 
-        {/* Desktop Grid */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {locations.map((location, index) => (
+        {/* Desktop Infinite Slider */}
+        <div 
+          className="hidden md:block relative overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Navigation Arrows */}
+          <button
+            onClick={goToPrev}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-yellow-primary p-3 rounded-full shadow-lg transition-all duration-300 -ml-2"
+            aria-label="Anterior"
+          >
+            <ChevronLeft size={24} className="text-gray-dark" />
+          </button>
+          <button
+            onClick={goToNext}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-yellow-primary p-3 rounded-full shadow-lg transition-all duration-300 -mr-2"
+            aria-label="Siguiente"
+          >
+            <ChevronRight size={24} className="text-gray-dark" />
+          </button>
+
+          {/* Slider Container */}
+          <div className="overflow-hidden mx-8">
             <div
-              key={location.id}
-              className="fade-up bg-white rounded-xl p-6 shadow-card hover:shadow-card-hover transition-all duration-300"
-              style={{ transitionDelay: `${0.1 * index}s` }}
+              ref={sliderRef}
+              className="flex gap-4"
+              style={{
+                transform: `translateX(calc(-${currentIndex * (100 / 3)}% - ${currentIndex * (16 / 3)}px))`,
+                transition: isTransitioning ? 'transform 500ms ease-in-out' : 'none',
+              }}
             >
-              <h3 className="font-heading font-bold text-lg text-gray-dark mb-4">
-                {location.name}
-              </h3>
-
-              <div className="space-y-3 mb-6">
-                <div className="flex items-start gap-3">
-                  <MapPin size={18} className="text-blue-flag mt-0.5 flex-shrink-0" />
-                  <p className="text-gray-medium text-sm">{location.address}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Phone size={18} className="text-blue-flag flex-shrink-0" />
-                  <a
-                    href={`tel:${location.phone.replace(/\s/g, '')}`}
-                    className="text-gray-medium text-sm hover:text-blue-flag transition-colors"
-                  >
-                    {location.phone}
-                  </a>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Clock size={18} className="text-blue-flag mt-0.5 flex-shrink-0" />
-                  <p className="text-gray-medium text-sm">{location.hours}</p>
-                </div>
-              </div>
-
-              <a
-                href={location.mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary text-sm py-2 w-full flex items-center justify-center gap-2"
-              >
-                Ver en Google Maps
-                <ExternalLink size={14} />
-              </a>
+              {extendedLocations.map((location, index) => (
+                <LocationCard key={`${location.id}-${index}`} location={location} />
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 mt-8">
+            {locations.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setIsTransitioning(true);
+                  setCurrentIndex(locations.length + index);
+                }}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  (currentIndex % locations.length) === index
+                    ? 'bg-yellow-primary w-8'
+                    : 'bg-gray-medium/30 hover:bg-gray-medium/50'
+                }`}
+                aria-label={`Ir a sucursal ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Mobile Accordion */}
