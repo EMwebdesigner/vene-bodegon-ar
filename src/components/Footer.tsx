@@ -18,11 +18,11 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <a href="#inicio" onClick={() => scrollToSection('#inicio')} className="inline-block mb-6">
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center p-2">
+              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center overflow-hidden">
                 <img 
                   src={logoVenebodegon} 
                   alt="VeneBodegón - Almacén & Bebidas" 
-                  className="h-14 w-auto object-contain"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </a>
