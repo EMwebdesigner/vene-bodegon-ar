@@ -1,4 +1,5 @@
 import { Phone, MapPin, Instagram, MessageCircle } from 'lucide-react';
+import logoVenebodegon from '@/assets/logo-venebodegon.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,10 +18,11 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <a href="#inicio" onClick={() => scrollToSection('#inicio')} className="inline-block mb-6">
-              <span className="font-heading text-2xl font-extrabold">
-                <span className="text-yellow-primary">Vene</span>
-                <span className="text-white">Bodegón</span>
-              </span>
+              <img 
+                src={logoVenebodegon} 
+                alt="VeneBodegón - Almacén & Bebidas" 
+                className="h-16 w-auto"
+              />
             </a>
             <p className="text-white/70 text-sm leading-relaxed mb-6">
               Productos venezolanos auténticos en Argentina. Traemos los sabores de nuestra tierra para que disfrutes como en casa.

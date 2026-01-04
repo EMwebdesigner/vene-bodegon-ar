@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import logoVenebodegon from '@/assets/logo-venebodegon.png';
 
 const navLinks = [
   { name: 'Inicio', href: '#inicio' },
@@ -43,13 +44,12 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="#inicio" onClick={(e) => handleNavClick(e, '#inicio')} className="flex items-center gap-2">
-          <div className="flex items-center">
-            <span className="font-heading text-2xl md:text-3xl font-extrabold">
-              <span className="text-yellow-primary">Vene</span>
-              <span className="text-gray-dark">Bodegón</span>
-            </span>
-          </div>
+        <a href="#inicio" onClick={(e) => handleNavClick(e, '#inicio')} className="flex items-center">
+          <img 
+            src={logoVenebodegon} 
+            alt="VeneBodegón - Almacén & Bebidas" 
+            className="h-12 md:h-14 w-auto"
+          />
         </a>
 
         {/* Desktop Navigation */}
