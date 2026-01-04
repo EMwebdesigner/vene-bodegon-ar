@@ -22,7 +22,7 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <section id="nosotros" ref={sectionRef} className="py-20 lg:py-28 bg-white">
+    <section id="nosotros" ref={sectionRef} className="py-12 lg:py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Image */}

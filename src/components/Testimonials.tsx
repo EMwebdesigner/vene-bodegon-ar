@@ -47,7 +47,7 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section id="testimonios" ref={sectionRef} className="py-20 lg:py-28 bg-white">
+    <section id="testimonios" ref={sectionRef} className="py-12 lg:py-16 bg-white">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
