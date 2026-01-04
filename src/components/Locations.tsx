@@ -118,8 +118,8 @@ const Locations = () => {
   };
 
   const LocationCard = ({ location }: { location: typeof locations[0] }) => (
-    <div className="flex-shrink-0 w-full md:w-[calc(33.333%-1rem)] px-2">
-      <div 
+    <div className="flex-shrink-0 w-[calc(33.333%-1rem)]">
+      <div
         className="relative rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 h-full min-h-[380px] group"
       >
         {/* Background Image */}
@@ -210,12 +210,12 @@ const Locations = () => {
           </button>
 
           {/* Slider Container */}
-          <div className="overflow-hidden mx-8">
+          <div className="overflow-hidden px-4">
             <div
               ref={sliderRef}
-              className="flex gap-4"
+              className="flex gap-6"
               style={{
-                transform: `translateX(calc(-${currentIndex * (100 / 3)}% - ${currentIndex * (16 / 3)}px))`,
+                transform: `translateX(calc(-${currentIndex} * (33.333% + 8px)))`,
                 transition: isTransitioning ? 'transform 500ms ease-in-out' : 'none',
               }}
             >
