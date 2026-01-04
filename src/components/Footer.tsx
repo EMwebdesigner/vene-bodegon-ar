@@ -18,11 +18,13 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <a href="#inicio" onClick={() => scrollToSection('#inicio')} className="inline-block mb-6">
-              <img 
-                src={logoVenebodegon} 
-                alt="VeneBodegón - Almacén & Bebidas" 
-                className="h-16 w-auto"
-              />
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center p-2">
+                <img 
+                  src={logoVenebodegon} 
+                  alt="VeneBodegón - Almacén & Bebidas" 
+                  className="h-14 w-auto object-contain"
+                />
+              </div>
             </a>
             <p className="text-white/70 text-sm leading-relaxed mb-6">
               Productos venezolanos auténticos en Argentina. Traemos los sabores de nuestra tierra para que disfrutes como en casa.
