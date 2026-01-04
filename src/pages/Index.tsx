@@ -75,7 +75,7 @@ const Index = () => {
         </script>
       </Helmet>
 
-      <div className="min-h-screen">
+      <div className="min-h-screen overflow-x-hidden">
         <Header />
         <main>
           <Hero />
