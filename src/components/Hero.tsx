@@ -1,7 +1,37 @@
 import { ChevronDown } from 'lucide-react';
-import heroImage from '@/assets/hero-bodegon.jpg';
+import { useState, useEffect } from 'react';
+import heroSlide1 from '@/assets/hero-slide-1.jpg';
+import heroSlide2 from '@/assets/hero-slide-2.jpg';
+import heroSlide3 from '@/assets/hero-slide-3.jpg';
+
+const slides = [
+  {
+    image: heroSlide1,
+    alt: "Productos venezolanos auténticos - arepas, harina pan, toddy, maltín"
+  },
+  {
+    image: heroSlide2,
+    alt: "Tienda de productos venezolanos con variedad de marcas"
+  },
+  {
+    image: heroSlide3,
+    alt: "Preparación tradicional de arepas venezolanas"
+  }
+];
+
+const SLIDE_INTERVAL = 5000; // 5 segundos
 
 const Hero = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, SLIDE_INTERVAL);
+
+    return () => clearInterval(timer);
+  }, []);
+
   const scrollToProducts = () => {
     const element = document.querySelector('#productos');
     if (element) {
@@ -14,15 +44,41 @@ const Hero = () => {
       id="inicio"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background Image with Overlay */}
+      {/* Background Slideshow */}
       <div className="absolute inset-0">
-        <img
-          src={heroImage}
-          alt="Productos venezolanos auténticos - arepas, harina pan, malta y más"
-          className="w-full h-full object-cover"
-          loading="eager"
-        />
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <img
+              src={slide.image}
+              alt={slide.alt}
+              className="w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+            />
+          </div>
+        ))}
+        {/* Dark overlay */}
         <div className="absolute inset-0 bg-gray-dark/60" />
+      </div>
+
+      {/* Slide Indicators */}
+      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            aria-label={`Ir a slide ${index + 1}`}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentSlide
+                ? 'bg-yellow-primary w-8'
+                : 'bg-white/50 hover:bg-white/80'
+            }`}
+          />
+        ))}
       </div>
 
       {/* Content */}
@@ -49,7 +105,7 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float z-20">
         <button
           onClick={scrollToProducts}
           aria-label="Scroll hacia abajo"
