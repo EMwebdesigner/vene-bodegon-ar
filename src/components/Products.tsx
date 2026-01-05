@@ -5,7 +5,7 @@ const categories = [
   {
     id: 1,
     title: 'Harinas & Cereales',
-    image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&q=80',
+    image: 'https://jeta-imports.com/cdn/shop/files/harina-pan-de-maiz-amarillo-precocida-1kg-premium-yellow-corn-flour-962204.jpg?v=1736035132&width=713',
     examples: ['Harina PAN', 'Harina Juana', 'Maíz pilado', 'Avena en hojuelas'],
     accent: 'yellow',
   },
@@ -19,14 +19,14 @@ const categories = [
   {
     id: 3,
     title: 'Dulces y Snacks',
-    image: 'https://images.unsplash.com/photo-1499195333224-3ce974eecb47?w=400&q=80',
+    image: 'https://venezuelan-treats.myshopify.com/cdn/shop/files/48dc864eaee413c0a10c2f7c4017be95_540x.jpg?v=1613713504',
     examples: ['Cocosette', 'Susy', 'Toronto', 'Pirulin'],
     accent: 'yellow',
   },
   {
     id: 4,
     title: 'Bebidas & Refrescos',
-    image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&q=80',
+    image: 'https://scontent.fepa10-1.fna.fbcdn.net/v/t1.6435-9/30624265_1875501535794497_5995601764840112128_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=9eae26&_nc_eui2=AeHv5HA715HJKPbvJkFRjg0oI8EbkGmY0oAjwRuQaZjSgN8NAHTLuX0wKlSH3Apeb2g&_nc_ohc=NaswO8PqbjEQ7kNvwEYyvaH&_nc_oc=Adlh4cW2TOMWcvflqPSlZjTuSYCkSyXb3vw0x69LfkhsUXoPhIfx_zEoeDvZIt594XdaaGL-Sz2mREfynTTvl4MG&_nc_zt=23&_nc_ht=scontent.fepa10-1.fna&_nc_gid=abXmGs3UEBJeWGSsWowVlw&oh=00_Afo4xI8pOJSFxkonpgyMbeb-V6nUzO0KaNW5hUzSAVF2VQ&oe=69833E63',
     examples: ['Malta', 'Frescolita', 'Ron Santa Teresa', 'Whisky Old Parr'],
     accent: 'red',
   },
@@ -40,7 +40,7 @@ const categories = [
   {
     id: 6,
     title: 'Productos Congelados',
-    image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&q=80',
+    image: 'https://static.bainet.es/clip/abac80ec-3631-4526-b559-f2e4970fb2a1_source-aspect-ratio_1600w_0.jpg',
     examples: ['Tequeños', 'Empanadas', 'Hallacas', 'Cachapas'],
     accent: 'red',
   },
