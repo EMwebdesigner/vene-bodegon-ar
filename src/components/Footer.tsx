@@ -31,7 +31,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href="https://instagram.com/venebodegon"
+                href="https://www.instagram.com/venebodegon.ar/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -121,7 +121,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://instagram.com/venebodegon"
+                  href="https://www.instagram.com/venebodegon.ar/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-white/70 hover:text-yellow-primary transition-colors text-sm"
