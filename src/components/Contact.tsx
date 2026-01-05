@@ -272,7 +272,7 @@ const Contact = () => {
                 <span className="text-sm">WhatsApp</span>
               </a>
               <a
-                href="https://instagram.com/venebodegon"
+                href="https://www.instagram.com/venebodegon.ar/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-gray-medium hover:text-pink-600 transition-colors"
